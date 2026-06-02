@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <title>Competitive Analysis Cards</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Sora', sans-serif;
+            background: #f8f7f5;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .card {
+            background: white;
+            border: 1px solid #e5e3df;
+            border-radius: 12px;
+            padding: 28px;
+            margin-bottom: 24px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        
+        .card-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+        }
+        
+        .card-subtitle {
+            font-size: 13px;
+            color: #6b6b6b;
+            margin-bottom: 20px;
+            font-weight: 400;
+        }
+        
+        /* Card 1: Key dimensions */
+        .dimension-group {
+            margin-bottom: 24px;
+        }
+        
+        .dimension-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: #1a1a1a;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 10px;
+        }
+        
+        .score-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 10px;
+        }
+        
+        .score-item {
+            background: #f5f5f5;
+            border: 1px solid #e5e3df;
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+        }
+        
+        .score-item.highlight {
+            background: #e6f1fb;
+            border: 1.5px solid #58c2d8;
+        }
+        
+        .score-name {
+            font-size: 11px;
+            font-weight: 600;
+            color: #6b6b6b;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+        }
+        
+        .score-name.ours {
+            color: #2d92c8;
+        }
+        
+        .score-number {
+            font-size: 24px;
+            font-weight: 700;
+            margin: 0;
+        }
+        
+        .score-5 { color: #1D9E75; }
+        .score-4 { color: #0F6E56; }
+        .score-3 { color: #EF9F27; }
+        .score-2 { color: #BA7517; }
+        .score-1 { color: #A32D2D; }
+        .score-0 { color: #999; }
+        
+        /* Card 2: User segment ranking */
+        .segment-section {
+            margin-bottom: 28px;
+        }
+        
+        .segment-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 12px;
+            border-bottom: 2px solid #e5e3df;
+            padding-bottom: 8px;
+        }
+        
+        .ranking-list {
+            list-style: none;
+        }
+        
+        .ranking-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 13px;
+        }
+        
+        .ranking-item:last-child {
+            border-bottom: none;
+        }
+        
+        .ranking-name {
+            flex: 1;
+            font-weight: 500;
+            color: #1a1a1a;
+        }
+        
+        .ranking-name.ours {
+            color: #2d92c8;
+            font-weight: 600;
+        }
+        
+        .ranking-bar-wrapper {
+            flex: 1;
+            margin: 0 12px;
+            height: 6px;
+            background: #f0f0f0;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        
+        .ranking-bar {
+            height: 100%;
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
+        
+        .ranking-bar.ours { background: #58c2d8; }
+        .ranking-bar.comp { background: #b4b2a9; }
+        
+        .ranking-score {
+            min-width: 32px;
+            text-align: right;
+            font-weight: 600;
+            font-size: 12px;
+        }
+        
+        .ranking-score.s5 { color: #1D9E75; }
+        .ranking-score.s4 { color: #0F6E56; }
+        .ranking-score.s3 { color: #EF9F27; }
+        .ranking-score.s2 { color: #BA7517; }
+        .ranking-score.s1 { color: #A32D2D; }
+        .ranking-score.s0 { color: #999; }
+        
+        .legend {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+            padding-top: 16px;
+            border-top: 1px solid #e5e3df;
+            font-size: 11px;
+            color: #6b6b6b;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .legend-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+
+<!-- CARD 1: Key Dimensions Comparison -->
+<div class="card">
+    <h2 class="card-title">Competitive positioning on key dimensions</h2>
+    <p class="card-subtitle">How each platform performs where it matters most. Scale: 5=Best in class | 3=Competitive | 1=Limited | 0=Not available</p>
+    
+    <div class="dimension-group">
+        <div class="dimension-title">Filing workflow automation</div>
+        <div class="score-grid">
+            <div class="score-item highlight">
+                <div class="score-name ours">Our platform</div>
+                <div class="score-number score-5">5</div>
+            </div>
+            <div class="score-item">
+                <div class="score-name">RPC Telecom</div>
+                <div class="score-number score-4">4</div>
+            </div>
+            <div class="score-item">
+                <div class="score-name">ITU tools</div>
+                <div class="score-number score-3">3</div>
+            </div>
+            <div class="score-item">
+                <div class="score-name">Visualyse</div>
+                <div class="score-number score-2">2</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="dimension-group">
+        <div class="dimension-title">Ease of use & accessibility</div>
+        <div class="score-grid">
+            <div class="score-item highlight">
+                <div class="score-name ours">Our platform</div>
+                <div class="score-number score-5">5</div>
+            </div>
+            <div class="score-item">
+                <div class="score-name">ITU tools</div>
+                <div class="score-number score-3">3</div>
+            </div>
+            <div class="score-item">
+                <div class="score-name">RPC Telecom</div>
+                <div class="score-number score-2">2</div>
+            </div>
+            <div class="score-item">
+                <div class="score-name">Visualyse</div>
+                <div class="score-number score-1">1</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="dimension-group">
+        <div class="dimension-title">Technical analysis depth</div>
+        <div class="score-grid">
+            <div class="score-item">
+                <div class="score-name">Visualyse</div>
+                <div class="score-number score-5">5</div>
+            </div>
+            <div class="score-item">
+                <div class="score-name">ATDI / LS telcom</div>
+                <div class="score-number score-5">5</div>
+            </div>
+            <div class="score-item">
+                <div class="score-name">RPC Telecom</div>
+                <div class="score-number score-3">3</div>
+            </div>
+            <div class="score-item highlight">
+                <div class="score-name ours">Our platform</div>
+                <div class="score-number score-0">0</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="dimension-group">
+        <div class="dimension-title">Cost & price transparency</div>
+        <div class="score-grid">
+            <div class="score-item">
+                <div class="score-name">ITU tools</div>
+                <div class="score-number score-5">5</div>
+            </div>
+            <div class="score-item highlight">
+                <div class="score-name ours">Our platform</div>
+                <div class="score-number score-5">5</div>
+            </div>
+            <div class="score-item">
+                <div class="score-name">RPC Telecom</div>
+                <div class="score-number score-0">0</div>
+            </div>
+            <div class="score-item">
+                <div class="score-name">Visualyse</div>
+                <div class="score-number score-0">0</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="legend">
+        <div class="legend-item">
+            <span class="legend-dot" style="background: #1D9E75;"></span> Score 5: Best in class
+        </div>
+        <div class="legend-item">
+            <span class="legend-dot" style="background: #0F6E56;"></span> Score 4: Very strong
+        </div>
+        <div class="legend-item">
+            <span class="legend-dot" style="background: #EF9F27;"></span> Score 3: Competitive
+        </div>
+        <div class="legend-item">
+            <span class="legend-dot" style="background: #BA7517;"></span> Score 2: Limited
+        </div>
+        <div class="legend-item">
+            <span class="legend-dot" style="background: #A32D2D;"></span> Score 1: Very limited
+        </div>
+    </div>
+</div>
+
+<!-- CARD 2: Market Segment Fit -->
+<div class="card">
+    <h2 class="card-title">Fit by user segment</h2>
+    <p class="card-subtitle">Total score across all dimensions most relevant to each user type. Higher scores indicate better product-market fit.</p>
+    
+    <div class="segment-section">
+        <div class="segment-name">🚀 NewSpace startup (&lt;10 staff)</div>
+        <ul class="ranking-list">
+            <li class="ranking-item">
+                <span class="ranking-name ours">Our platform</span>
+                <div class="ranking-bar-wrapper">
+                    <div class="ranking-bar ours" style="width: 92%;"></div>
+                </div>
+                <span class="ranking-score s5">46/50</span>
+            </li>
+            <li class="ranking-item">
+                <span class="ranking-name">RPC Telecom</span>
+                <div class="ranking-bar-wrapper">
+                    <div class="ranking-bar comp" style="width: 58%;"></div>
+                </div>
+                <span class="ranking-score s3">29/50</span>
+            </li>
+            <li class="ranking-item">
+                <span class="ranking-name">ITU tools</span>
+                <div class="ranking-bar-wrapper">
+                    <div class="ranking-bar comp" style="width: 48%;"></div>
+                </div>
+                <span class="ranking-score s2">24/50</span>
+            </li>
+            <li class="ranking-item">
+                <span class="ranking-name">Visualyse</span>
+                <div class="ranking-bar-wrapper">
+                    <div class="ranking-bar comp" style="width: 32%;"></div>
+                </div>
+                <span class="ranking-score s2">16/50</span>
+            </li>
+        </ul>
+    </div>
+    
+    <div class="segment-section">
+        <div class="segment-name">🛰️ Mid-size satellite operator (100+ staff)</div>
+        <ul class="ranking-list">
+            <li class="ranking-item">
+                <span class="ranking-name">RPC Telecom</span>
+                <div class="ranking-bar-wrapper">
+                    <div class="ranking-bar comp" style="width: 94%;"></div>
+                </div>
+                <span class="ranking-score s5">47/50</span>
+            </li>
+            <li class="ranking-item">
+                <span class="ranking-name ours">Our platform</span>
+                <div class="ranking-bar-wrapper">
+                    <div class="ranking-bar ours" style="width: 80%;"></div>
+                </div>
+                <span class="ranking-score s4">40/50</span>
+            </li>
+            <li class="ranking-item">
+                <span class="ranking-name">Visualyse</span>
+                <div class="ranking-bar-wrapper">
+                    <div class="ranking-bar comp" style="width: 62%;"></div>
+                </div>
+                <span class="ranking-score s3">31/50</span>
+            </li>
+            <li class="ranking-item">
+                <span class="ranking-name">ITU tools</span>
+                <div class="ranking-bar-wrapper">
+                    <div class="ranking-bar comp" style="width: 42%;"></div>
+                </div>
+                <span class="ranking-score s2">21/50</span>
+            </li>
+        </ul>
+    </div>
+    
+    <div class="segment-section">
+        <div class="segment-name">🏢 Large satellite operator (1000+ staff)</div>
+        <ul class="ranking-list">
+            <li class="ranking-item">
+                <span class="ranking-name">Visualyse</span>
+                <div class="ranking-bar-wrapper">
+                    <div class="ranking-bar comp" style="width: 96%;"></div>
+                </div>
+                <span class="ranking-score s5">48/50</span>
+            </li>
+            <li class="ranking-item">
+                <span class="ranking-name">RPC Telecom</span>
+                <div class="ranking-bar-wrapper">
+                    <div class="ranking-bar comp" style="width: 78%;"></div>
+                </div>
+                <span class="ranking-score s4">39/50</span>
+            </li>
+            <li class="ranking-item">
+                <span class="ranking-name ours">Our platform</span>
+                <div class="ranking-bar-wrapper">
+                    <div class="ranking-bar ours" style="width: 48%;"></div>
+                </div>
+                <span class="ranking-score s2">24/50</span>
+            </li>
+            <li class="ranking-item">
+                <span class="ranking-name">ITU tools</span>
+                <div class="ranking-bar-wrapper">
+                    <div class="ranking-bar comp" style="width: 40%;"></div>
+                </div>
+                <span class="ranking-score s2">20/50</span>
+            </li>
+        </ul>
+    </div>
+    
+    <div class="segment-section">
+        <div class="segment-name">🏛️ B2G / National regulator</div>
+        <ul class="ranking-list">
+            <li class="ranking-item">
+                <span class="ranking-name">ITU tools / ATDI / LS telcom</span>
+                <div class="ranking-bar-wrapper">
+                    <div class="ranking-bar comp" style="width: 100%;"></div>
+                </div>
+                <span class="ranking-score s5">50/50</span>
+            </li>
+            <li class="ranking-item">
+                <span class="ranking-name">TCI ASMS</span>
+                <div class="ranking-bar-wrapper">
+                    <div class="ranking-bar comp" style="width: 96%;"></div>
+                </div>
+                <span class="ranking-score s5">48/50</span>
+            </li>
+            <li class="ranking-item">
+                <span class="ranking-name">Visualyse</span>
+                <div class="ranking-bar-wrapper">
+                    <div class="ranking-bar comp" style="width: 48%;"></div>
+                </div>
+                <span class="ranking-score s2">24/50</span>
+            </li>
+            <li class="ranking-item">
+                <span class="ranking-name ours">Our platform</span>
+                <div class="ranking-bar-wrapper">
+                    <div class="ranking-bar ours" style="width: 8%;"></div>
+                </div>
+                <span class="ranking-score s0">4/50</span>
+            </li>
+        </ul>
+    </div>
+    
+    <p style="margin-top: 16px; font-size: 12px; color: #6b6b6b; padding-top: 16px; border-top: 1px solid #e5e3df;">
+        <strong>Key insight:</strong> Our platform dominates the NewSpace startup segment due to low friction and cost. For larger operators, we serve as a complementary workflow tool rather than a technical analysis replacement. B2G is an intentional market exclusion.
+    </p>
+</div>
+
+</body>
+</html>
