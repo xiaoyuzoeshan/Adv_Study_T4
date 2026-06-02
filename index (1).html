@@ -6,7 +6,7 @@
 <title>NodeSpace · Spectrum filing & coordination, made certain</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Mono:wght@400;500&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Mono:wght@400;500&family=Sora:wght@300;400;500;600&display=swap" rel="styleshee[...]
 <style>
 :root{
   --void:#070b12;
@@ -46,7 +46,7 @@ body{
 }
 .grain{
   position:fixed;inset:0;z-index:2;pointer-events:none;opacity:0.035;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2[...]
 }
 
 main{position:relative;z-index:3}
@@ -76,8 +76,9 @@ nav.scrolled{
   border-bottom:1px solid var(--line);padding:16px 40px;
 }
 .brand{display:flex;align-items:center;gap:13px;text-decoration:none;color:var(--ink)}
-.brand-mark{width:30px;height:30px;flex:none}
-.brand-name{font-family:'Fraunces',serif;font-size:21px;letter-spacing:-0.01em}
+.brand-mark{width:40px;height:40px;flex:none;display:flex;align-items:center;justify-content:center}
+.brand-mark img{width:100%;height:100%;object-fit:contain}
+.brand-name{font-family:'Fraunces',serif;font-size:21px;letter-spacing:-0.01em;display:none}
 .brand-name b{font-weight:600}
 .nav-links{display:flex;align-items:center;gap:38px}
 .nav-links a{
@@ -242,6 +243,7 @@ section{padding:120px 0;position:relative}
 footer{border-top:1px solid var(--line);padding:54px 0 60px}
 .foot-grid{display:flex;justify-content:space-between;align-items:flex-start;gap:40px;flex-wrap:wrap}
 .foot-brand{max-width:300px}
+.foot-brand .brand-mark{width:50px;height:50px}
 .foot-brand p{color:var(--ink-faint);font-size:14px;margin-top:16px}
 .foot-cols{display:flex;gap:70px;flex-wrap:wrap}
 .foot-col h5{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.18em;
@@ -286,20 +288,9 @@ footer{border-top:1px solid var(--line);padding:54px 0 60px}
 <!-- NAV -->
 <nav id="nav">
   <a href="#top" class="brand">
-    <svg class="brand-mark" viewBox="0 0 40 40" fill="none">
-      <circle cx="20" cy="20" r="3.4" fill="#4fd6c8"/>
-      <circle cx="7" cy="11" r="2.2" fill="#e8eef5"/>
-      <circle cx="33" cy="9" r="2.2" fill="#e8eef5"/>
-      <circle cx="31" cy="31" r="2.2" fill="#e8eef5"/>
-      <circle cx="9" cy="30" r="2.2" fill="#e8eef5"/>
-      <g stroke="#4fd6c8" stroke-width="1" opacity="0.55">
-        <line x1="20" y1="20" x2="7" y2="11"/>
-        <line x1="20" y1="20" x2="33" y2="9"/>
-        <line x1="20" y1="20" x2="31" y2="31"/>
-        <line x1="20" y1="20" x2="9" y2="30"/>
-      </g>
-    </svg>
-    <span class="brand-name">Node<b>Space</b></span>
+    <div class="brand-mark">
+      <img src="nodespace-logo.png" alt="NodeSpace Logo">
+    </div>
   </a>
   <div class="nav-links" id="navlinks">
     <a href="#stakes">Why it matters</a>
@@ -353,8 +344,8 @@ footer{border-top:1px solid var(--line);padding:54px 0 60px}
     <div class="wrap">
       <div class="sec-head reveal">
         <span class="eyebrow">The stakes</span>
-        <p class="stake-quote" style="margin-top:24px">Lease your frequencies from someone else, and if they go under, your business is exposed to <em>legal risk</em>, with your satellite broadcasting on a slot it no longer has the right to use.</p>
-        <p class="stake-sub">Spectrum rights are awarded first-come, first-served. The earlier you file, the stronger your position. A single error can send you to the back of a years-long queue, or cancel your claim entirely.</p>
+        <p class="stake-quote" style="margin-top:24px">Lease your frequencies from someone else, and if they go under, your business is exposed to <em>legal risk</em>, with your satellite broadcasting[...]
+        <p class="stake-sub">Spectrum rights are awarded first-come, first-served. The earlier you file, the stronger your position. A single error can send you to the back of a years-long queue, or c[...]
       </div>
 
       <div class="prob-grid reveal">
@@ -371,7 +362,7 @@ footer{border-top:1px solid var(--line);padding:54px 0 60px}
         <div class="prob">
           <span class="num">03</span>
           <h3>Too easy to get wrong</h3>
-          <p>A mismatched parameter, a missed window, an incomplete coordination. Any one of these can void a filing, lose a priority date, or trigger interference disputes that take years to settle.</p>
+          <p>A mismatched parameter, a missed window, an incomplete coordination. Any one of these can void a filing, lose a priority date, or trigger interference disputes that take years to settle.<[...]
         </div>
       </div>
     </div>
@@ -464,12 +455,12 @@ footer{border-top:1px solid var(--line);padding:54px 0 60px}
       </div>
       <div class="pillars">
         <div class="pillar reveal">
-          <svg class="ic" viewBox="0 0 40 40" fill="none"><rect x="6" y="6" width="28" height="28" rx="3" stroke="currentColor" stroke-width="1.6"/><path d="M13 20l5 5 9-11" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg class="ic" viewBox="0 0 40 40" fill="none"><rect x="6" y="6" width="28" height="28" rx="3" stroke="currentColor" stroke-width="1.6"/><path d="M13 20l5 5 9-11" stroke="currentColor" stro[...]
           <h3>Automated, then verified</h3>
           <p>Software does the heavy, repetitive work of preparing and checking a filing. A review layer guards against the mistakes that quietly void a claim.</p>
         </div>
         <div class="pillar reveal">
-          <svg class="ic" viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="14" stroke="currentColor" stroke-width="1.6"/><circle cx="20" cy="20" r="5" stroke="currentColor" stroke-width="1.6"/><path d="M20 6v6M20 28v6M6 20h6M28 20h6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          <svg class="ic" viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="14" stroke="currentColor" stroke-width="1.6"/><circle cx="20" cy="20" r="5" stroke="currentColor" stroke-width="1.6[...]
           <h3>Risk you can see early</h3>
           <p>Knowing who you must coordinate with, before you design around a frequency, turns a late-stage surprise into an early, manageable decision.</p>
         </div>
@@ -494,9 +485,9 @@ footer{border-top:1px solid var(--line);padding:54px 0 60px}
         <div class="member"><div class="avatar">N</div><h4>Founder</h4><span class="role">ISU MASTER'S<br>SYSTEMS & ENGINEERING</span></div>
         <div class="member"><div class="avatar">N</div><h4>Founder</h4><span class="role">ISU MASTER'S<br>SOFTWARE & DATA</span></div>
         <div class="member"><div class="avatar">N</div><h4>Founder</h4><span class="role">ISU MASTER'S<br>OPERATIONS & GROWTH</span></div>
-        <div class="member"><div class="avatar" style="border-color:var(--signal)">规</div><h4>Founder</h4><span class="role" style="color:var(--signal)">ITU REGULATION<br>SPECIALIST · CHINA</span></div>
+        <div class="member"><div class="avatar" style="border-color:var(--signal)">规</div><h4>Founder</h4><span class="role" style="color:var(--signal)">ITU REGULATION<br>SPECIALIST · CHINA</span><[...]
       </div>
-      <p class="team-note reveal"><b>A team built for exactly this problem.</b> Five master's candidates from the International Space University, including a dedicated ITU regulation specialist from China who has worked inside the filing and coordination process. We understand both the engineering and the rulebook, because solving this needs both.</p>
+      <p class="team-note reveal"><b>A team built for exactly this problem.</b> Five master's candidates from the International Space University, including a dedicated ITU regulation specialist from C[...]
     </div>
   </section>
 
@@ -525,16 +516,9 @@ footer{border-top:1px solid var(--line);padding:54px 0 60px}
       <div class="foot-grid">
         <div class="foot-brand">
           <a href="#top" class="brand">
-            <svg class="brand-mark" viewBox="0 0 40 40" fill="none">
-              <circle cx="20" cy="20" r="3.4" fill="#4fd6c8"/>
-              <circle cx="7" cy="11" r="2.2" fill="#e8eef5"/><circle cx="33" cy="9" r="2.2" fill="#e8eef5"/>
-              <circle cx="31" cy="31" r="2.2" fill="#e8eef5"/><circle cx="9" cy="30" r="2.2" fill="#e8eef5"/>
-              <g stroke="#4fd6c8" stroke-width="1" opacity="0.55">
-                <line x1="20" y1="20" x2="7" y2="11"/><line x1="20" y1="20" x2="33" y2="9"/>
-                <line x1="20" y1="20" x2="31" y2="31"/><line x1="20" y1="20" x2="9" y2="30"/>
-              </g>
-            </svg>
-            <span class="brand-name">Node<b>Space</b></span>
+            <div class="brand-mark">
+              <img src="nodespace-logo.png" alt="NodeSpace Logo">
+            </div>
           </a>
           <p>Spectrum filing and coordination, made fast, clear, and certain.</p>
         </div>
