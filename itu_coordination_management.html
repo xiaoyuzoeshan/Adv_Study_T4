@@ -247,12 +247,15 @@ textarea { max-width: 100%; min-height: 120px; font-family: var(--mono); font-si
 <div class="toast" id="toast">Changes saved successfully</div>
 
 <script type="module">
-import { requireAuth, loadNoticesFromFirestore } from './firebase-auth.js';
+import { requireAuth, loadFullDBFromFirestore } from './firebase-auth.js';
 requireAuth(async () => {
   try {
-    const notices = await loadNoticesFromFirestore();
-    window.dispatchEvent(new CustomEvent('firestoreData', { detail: { notices } }));
+    console.log('[mgmt] Loading notices from Firestore...');
+    const result = await loadFullDBFromFirestore();
+    console.log('[mgmt] Loaded', result.notices.length, 'notices');
+    window.dispatchEvent(new CustomEvent('firestoreData', { detail: { notices: result.notices } }));
   } catch (err) {
+    console.error('[mgmt] Firestore load error:', err);
     window.dispatchEvent(new CustomEvent('firestoreError'));
   }
 });
