@@ -45,7 +45,17 @@ function requireAuth(onReady) {
 async function loadNoticesFromFirestore() {
   const snap = await getDocs(collection(db, "notices"));
   const notices = [];
-  snap.forEach(doc => notices.push(doc.data()));
+  for (const docSnap of snap.docs) {
+    const data = docSnap.data();
+    if (data._freq_groups_split) {
+      const subSnap = await getDocs(collection(db, "notices", docSnap.id, "freq_groups"));
+      const allGroups = [];
+      subSnap.forEach(s => allGroups.push(...s.data().groups));
+      data.frequency_groups = allGroups;
+      delete data._freq_groups_split;
+    }
+    notices.push(data);
+  }
   return notices;
 }
 
