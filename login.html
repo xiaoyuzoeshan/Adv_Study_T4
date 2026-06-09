@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign In · NodeSpace</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Mono:wght@400;500&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --void: #070b12;
+  --void-2: #0b111b;
+  --panel: #0e1622;
+  --line: rgba(120,160,190,0.14);
+  --line-strong: rgba(120,170,200,0.28);
+  --ink: #e8eef5;
+  --ink-dim: #9fb0c2;
+  --ink-faint: #5d7186;
+  --signal: #58c2d8;
+  --signal-deep: #2d92c8;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Sora', sans-serif;
+  background: var(--void);
+  color: var(--ink);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.login-card {
+  width: 100%;
+  max-width: 420px;
+  padding: 56px 40px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: linear-gradient(160deg, rgba(14,22,34,0.9), rgba(8,12,20,0.7));
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.login-card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--signal), transparent);
+  opacity: 0.6;
+}
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 36px;
+}
+.logo svg { width: 28px; height: 28px; }
+.logo span {
+  font-family: 'Fraunces', serif;
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+}
+h1 {
+  font-family: 'Fraunces', serif;
+  font-size: 28px;
+  font-weight: 400;
+  margin-bottom: 12px;
+  letter-spacing: -0.01em;
+}
+.subtitle {
+  color: var(--ink-dim);
+  font-size: 15px;
+  margin-bottom: 40px;
+  line-height: 1.5;
+}
+.google-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: #fff;
+  color: #3c4043;
+  border: none;
+  border-radius: 4px;
+  padding: 14px 28px;
+  font-family: 'Sora', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: box-shadow 0.25s, transform 0.25s;
+  width: 100%;
+  justify-content: center;
+}
+.google-btn:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+  transform: translateY(-1px);
+}
+.google-btn:active { transform: translateY(0); }
+.google-btn svg { width: 20px; height: 20px; flex-shrink: 0; }
+.error-msg {
+  color: #f07060;
+  font-size: 13px;
+  margin-top: 18px;
+  display: none;
+}
+.footer-note {
+  margin-top: 36px;
+  font-size: 12px;
+  color: var(--ink-faint);
+}
+.footer-note a { color: var(--signal); text-decoration: none; }
+.footer-note a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<div class="login-card">
+  <div class="logo">
+    <svg viewBox="0 0 32 32" fill="none">
+      <circle cx="16" cy="16" r="14" stroke="#58c2d8" stroke-width="1.5"/>
+      <circle cx="16" cy="16" r="4" fill="#58c2d8"/>
+      <circle cx="16" cy="6" r="2" fill="#e8eef5"/>
+      <circle cx="24" cy="22" r="1.8" fill="#9fb0c2"/>
+    </svg>
+    <span>NodeSpace</span>
+  </div>
+
+  <h1>Sign in to continue</h1>
+  <p class="subtitle">Access the ITU coordination tools and filing data.</p>
+
+  <button class="google-btn" id="googleBtn">
+    <svg viewBox="0 0 24 24">
+      <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/>
+      <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+      <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+      <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+    </svg>
+    Sign in with Google
+  </button>
+
+  <div class="error-msg" id="errorMsg"></div>
+
+  <p class="footer-note">
+    <a href="index.html">← Back to NodeSpace home</a>
+  </p>
+</div>
+
+<script type="module">
+import { auth, loginWithGoogle, onAuthStateChanged } from './firebase-auth.js';
+
+onAuthStateChanged(auth, user => {
+  if (user) {
+    window.location.href = 'dashboard.html';
+  }
+});
+
+document.getElementById('googleBtn').addEventListener('click', async () => {
+  const errEl = document.getElementById('errorMsg');
+  errEl.style.display = 'none';
+  try {
+    await loginWithGoogle();
+  } catch (err) {
+    errEl.textContent = err.code === 'auth/popup-closed-by-user'
+      ? 'Sign-in cancelled. Try again when ready.'
+      : 'Sign-in failed: ' + err.message;
+    errEl.style.display = 'block';
+  }
+});
+</script>
+</body>
+</html>

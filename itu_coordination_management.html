@@ -246,7 +246,59 @@ textarea { max-width: 100%; min-height: 120px; font-family: var(--mono); font-si
 
 <div class="toast" id="toast">Changes saved successfully</div>
 
+<script type="module">
+import { requireAuth, loadFullDBFromFirestore } from './firebase-auth.js';
+requireAuth(async () => {
+  try {
+    console.log('[mgmt] Loading notices from Firestore...');
+    const result = await loadFullDBFromFirestore();
+    console.log('[mgmt] Loaded', result.notices.length, 'notices');
+    window.dispatchEvent(new CustomEvent('firestoreData', { detail: { notices: result.notices } }));
+  } catch (err) {
+    console.error('[mgmt] Firestore load error:', err);
+    window.dispatchEvent(new CustomEvent('firestoreError'));
+  }
+});
+</script>
+
 <script>
+/* ── Firestore data listener ── */
+window.addEventListener('firestoreData', function(e) {
+  var notices = e.detail.notices;
+  var filtered = notices.filter(function(n) { return n.sat_name; });
+  filtered.sort(function() { return 0.5 - Math.random(); });
+  candidates = filtered.slice(0, 10).map(function(n, i) {
+    var hist = generateMockHistory();
+    return {
+      id: String(n.ntc_id).padStart(9, '0'),
+      sat_name: n.sat_name || 'UNKNOWN SAT',
+      adm: n.adm,
+      op_agcy: 'demo company ' + (i + 1) + ' .Co',
+      status: STATUS_OPTIONS[Math.floor(Math.random() * STATUS_OPTIONS.length)],
+      notes: '',
+      history: hist,
+      lastUpdated: hist[0].date
+    };
+  });
+  initApp();
+});
+window.addEventListener('firestoreError', function() {
+  candidates = Array.from({length: 10}, function(_, i) {
+    var hist = generateMockHistory();
+    return {
+      id: String(990000000 + i),
+      sat_name: 'DEMO-SAT-' + (i+1),
+      adm: ['USA','F','G','CHN','RUS'][i%5],
+      op_agcy: 'demo company ' + (i + 1) + ' .Co',
+      status: STATUS_OPTIONS[Math.floor(Math.random() * STATUS_OPTIONS.length)],
+      notes: '',
+      history: hist,
+      lastUpdated: hist[0].date
+    };
+  });
+  initApp();
+});
+
 /* ── Background Animation ── */
 const cv=document.getElementById('bg'),cx=cv.getContext('2d');
 let W,H,nodes,DPR;
@@ -335,45 +387,7 @@ function generateMockHistory() {
   return history.reverse(); // Latest first
 }
 
-// Load Data
-fetch('CoordWithSesnext.json')
-  .then(res => res.json())
-  .then(data => {
-    const notices = Object.values(data.notices || {}).filter(n => n.sat_name);
-    notices.sort(() => 0.5 - Math.random());
-    
-    candidates = notices.slice(0, 10).map((n, i) => {
-      const hist = generateMockHistory();
-      return {
-        id: String(n.ntc_id).padStart(9, '0'),
-        sat_name: n.sat_name || 'UNKNOWN SAT',
-        adm: n.adm,
-        op_agcy: `demo company ${i + 1} .Co`,
-        status: STATUS_OPTIONS[Math.floor(Math.random() * STATUS_OPTIONS.length)],
-        notes: '',
-        history: hist,
-        lastUpdated: hist[0].date
-      };
-    });
-    initApp();
-  })
-  .catch(err => {
-    console.warn("Could not load real JSON, using hardcoded fallback mocks", err);
-    candidates = Array.from({length: 10}, (_, i) => {
-      const hist = generateMockHistory();
-      return {
-        id: String(990000000 + i),
-        sat_name: `DEMO-SAT-${i+1}`, 
-        adm: ['USA','F','G','CHN','RUS'][i%5],
-        op_agcy: `demo company ${i + 1} .Co`, 
-        status: STATUS_OPTIONS[Math.floor(Math.random() * STATUS_OPTIONS.length)],
-        notes: '',
-        history: hist,
-        lastUpdated: hist[0].date
-      };
-    });
-    initApp();
-  });
+// Data loading is handled by the module script above via requireAuth + loadNoticesFromFirestore
 
 function initApp() {
   document.getElementById('candidateCount').textContent = candidates.length;
