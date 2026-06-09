@@ -922,5 +922,10 @@ function handleSubmit() {
   }
 }
 </script>
+
+<script type="module">
+import { requireAuth } from './firebase-auth.js';
+requireAuth();
+</script>
 </body>
 </html>
