@@ -376,33 +376,7 @@ thead th[data-sort].desc::after { content: ' ↓'; opacity: 1; color: var(--sign
 
 </div>
 
-<script type="module">
-import { requireAuth, loadNoticesFromFirestore } from './firebase-auth.js';
-requireAuth(async () => {
-  try {
-    const notices = await loadNoticesFromFirestore();
-    window.dispatchEvent(new CustomEvent('firestoreData', { detail: { notices } }));
-  } catch (err) {
-    window.dispatchEvent(new CustomEvent('firestoreError'));
-  }
-});
-</script>
-
 <script>
-/* ── Firestore data listener ── */
-window.addEventListener('firestoreData', function(e) {
-  var dbData = { notices: e.detail.notices };
-  LOOKUP = {};
-  DB = normalizeExtractedJSON(dbData);
-  document.getElementById('loadingStatus').style.display = 'none';
-  onDBReady('Firestore (authenticated)');
-});
-window.addEventListener('firestoreError', function() {
-  document.getElementById('loadingStatus').style.display = 'none';
-  document.getElementById('fallbackZone').style.display = 'block';
-  setStatus('step1Status', 'warn', '⚠ Could not load from Firestore. Please select files manually.');
-});
-
 /* ── Background animation ── */
 const cv=document.getElementById('bg'),cx=cv.getContext('2d');
 let W,H,nodes,DPR;
@@ -464,7 +438,21 @@ const fallbackZone = document.getElementById('fallbackZone');
 const fileInput = document.getElementById('jsonFiles');
 const fileNameEl = document.getElementById('fileName');
 
-// Data loading is handled by the module script above via requireAuth + loadNoticesFromFirestore
+// Auto-load JSON files
+Promise.all([
+  fetch('CoordWithSesnext.json').then(r => { if(!r.ok) throw new Error('DB HTTP error'); return r.json(); }),
+  fetch('brific_flat_lookup.json').then(r => r.ok ? r.json() : {}).catch(e => ({}))
+]).then(([dbData, lookupData]) => {
+  LOOKUP = lookupData;
+  if (dbData.notices) { DB = normalizeExtractedJSON(dbData); } else { DB = dbData; }
+  document.getElementById('loadingStatus').style.display = 'none';
+  onDBReady('CoordWithSesnext.json (Auto-loaded)');
+}).catch(err => {
+  // Fallback to manual selection
+  document.getElementById('loadingStatus').style.display = 'none';
+  fallbackZone.style.display = 'block';
+  setStatus('step1Status', 'warn', '⚠ Running in local environment (CORS blocked). Please click above to manually select the exported JSON files.');
+});
 
 // Fallback handlers
 fileInput.addEventListener('change', e => handleFiles(e.target.files));

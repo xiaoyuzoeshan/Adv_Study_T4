@@ -1,6 +1,0 @@
-# Sensitive ITU data — now stored in Firestore
-CoordWithSesnext.json
-brific_flat_lookup.json
-
-# Admin tool — do not deploy
-upload-to-firestore.html
